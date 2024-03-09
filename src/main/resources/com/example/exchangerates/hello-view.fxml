@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.exchangerates.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.exchangerates.HelloController">
+    <children>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="747.0" prefWidth="784.0" VBox.vgrow="ALWAYS">
+            <children>
+                <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <Label layoutX="25.0" layoutY="26.0" text="1st currency" />
+                <TextField fx:id="initialPriceOfFirstTextField" layoutX="101.0" layoutY="22.0" prefHeight="27.0" prefWidth="107.0" />
+                <TextField fx:id="initialPriceOfSecondTextField" layoutX="101.0" layoutY="57.0" prefHeight="27.0" prefWidth="107.0" />
+                <Button fx:id="startStopButton" layoutX="219.0" layoutY="22.0" mnemonicParsing="false" onAction="#onStartStopButtonClick" prefHeight="62.0" prefWidth="550.0" text="Start/Stop" />
+                <LineChart fx:id="lineChart" layoutY="96.0" prefHeight="642.0" prefWidth="768.0">
+                    <xAxis>
+                        <NumberAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </LineChart>
+            <Label layoutX="25.0" layoutY="62.0" prefHeight="17.0" prefWidth="65.0" text="2st currency" />
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>
