@@ -7,6 +7,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,19 +17,14 @@ public class HelloController {
     private Label welcomeText;
 
     @FXML
-    private TextField initialPriceOfFirstTextField;
-
-    @FXML
-    private TextField initialPriceOfSecondTextField;
+    private TextField numberOfCurancies;
 
     @FXML
     private LineChart<Integer, Double> lineChart;
 
     private Timer timer;
 
-    private Currency firstCurrency;
-
-    private Currency secondCurrency;
+    private final ArrayList<Currency> currencies = new ArrayList<>();
 
     @FXML
     protected void onStartStopButtonClick() {
@@ -42,39 +39,21 @@ public class HelloController {
 
         timer = new Timer();
 
-        XYChart.Series<Integer, Double> firstCurrencySeries = new XYChart.Series<>();
-        XYChart.Series<Integer, Double> secondCurrencySeries = new XYChart.Series<>();
 
-        firstCurrency = new Currency(
-                Double.parseDouble(
-                        initialPriceOfFirstTextField.getText()
-                )
-        );
+        int size = Integer.parseInt(numberOfCurancies.getText());
 
-        secondCurrency = new Currency(
-                Double.parseDouble(
-                        initialPriceOfSecondTextField.getText()
-                )
-        );
+        ArrayList<XYChart.Series<Integer, Double>> currencySeries = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            currencies.add(new Currency(new Random().nextDouble(1, 2)));
+            currencySeries.add(new XYChart.Series<>());
+            currencySeries.get(i).getData().add(new XYChart.Data<>(
+                    currencies.get(i).getDay(),
+                    currencies.get(i).getPrice()
+            ));
+        }
 
-        firstCurrencySeries.getData().add(
-                new XYChart.Data<Integer, Double>(
-                        firstCurrency.getDay(),
-                        firstCurrency.getPrice()
-                )
-        );
 
-        secondCurrencySeries.getData().add(
-                new XYChart.Data<Integer, Double>(
-                        secondCurrency.getDay(),
-                        secondCurrency.getPrice()
-                )
-        );
-
-        firstCurrencySeries.setName("First currency");
-        secondCurrencySeries.setName("Second currency");
-
-        lineChart.getData().addAll(firstCurrencySeries, secondCurrencySeries);
+        lineChart.getData().addAll(currencySeries);
 
         TimerTask task = new TimerTask() {
             @Override
@@ -83,25 +62,16 @@ public class HelloController {
             }
         };
 
-        timer.schedule(task, 1000, 100);
+        timer.schedule(task, 0, 100);
 
     }
 
     public void drawNextDay() {
-
-        firstCurrency.updatePriceForNextDay();
-
-        secondCurrency.updatePriceForNextDay();
-
-        lineChart.getData().get(0).getData().add(
-                new XYChart.Data<>(firstCurrency.getDay(), firstCurrency.getPrice())
-        );
-
-        lineChart.getData().get(1).getData().add(
-                new XYChart.Data<Integer, Double>(
-                        secondCurrency.getDay(),
-                        secondCurrency.getPrice()
-                )
-        );
+        for (int i = 0; i < currencies.size(); i++) {
+            currencies.get(i).updatePriceForNextDay();
+            lineChart.getData().get(i).getData().add(
+                    new XYChart.Data<>(currencies.get(i).getDay(), currencies.get(i).getPrice())
+            );
+        }
     }
 }

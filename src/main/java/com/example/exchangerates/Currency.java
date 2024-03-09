@@ -6,7 +6,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Currency {
     private Double price;
     private Integer day;
-    private final double k = 0.02;
 
     public Currency(double price) {
         this.price = price;
@@ -24,6 +23,7 @@ public class Currency {
     public void updatePriceForNextDay() {
         day++;
         if (price != null) {
+            double k = 0.02;
             price = price * (1 + k * ( new Random().nextDouble(0, 1) - 0.5));
         }
     }
